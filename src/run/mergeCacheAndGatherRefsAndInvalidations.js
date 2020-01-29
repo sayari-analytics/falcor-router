@@ -33,7 +33,7 @@ function mergeCacheAndGatherRefsAndInvalidations(
     //   recurseMatchAndExecute cycle.
     // * unhandledPaths happens when a path matches a route but the route does
     //   not match the entire path, therefore there is unmatched paths.
-    jsongOrPVs.forEach(function(jsongOrPV) {
+    jsongOrPVs.forEach(function (jsongOrPV) {
         var refsAndValues = [];
 
         if (isMessage(jsongOrPV)) {
@@ -55,19 +55,19 @@ function mergeCacheAndGatherRefsAndInvalidations(
         var unhandled = refsAndValues.unhandledPaths;
 
         if (vals && vals.length) {
-            values = values.concat(vals);
+            values = [...values, ...vals]
         }
 
         if (invs && invs.length) {
-            invalidations = invalidations.concat(invs);
+            invalidations = [...invalidations, ...invs]
         }
 
         if (unhandled && unhandled.length) {
-            unhandledPaths = unhandledPaths.concat(unhandled);
+            unhandledPaths = [...unhandledPaths, ...unhandled]
         }
 
         if (refs && refs.length) {
-            refs.forEach(function(ref) {
+            refs.forEach(function (ref) {
                 references[++len] = ref;
             });
         }
