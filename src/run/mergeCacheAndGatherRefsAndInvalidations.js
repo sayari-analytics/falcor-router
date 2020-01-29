@@ -55,15 +55,15 @@ function mergeCacheAndGatherRefsAndInvalidations(
         var unhandled = refsAndValues.unhandledPaths;
 
         if (vals && vals.length) {
-            values = [...values, ...vals]
+            values.push(...vals)
         }
 
         if (invs && invs.length) {
-            invalidations = [...invalidations, ...invs]
+            invalidations.push(...invs)
         }
 
         if (unhandled && unhandled.length) {
-            unhandledPaths = [...unhandledPaths, ...unhandled]
+            unhandledPaths.push(unhandled)
         }
 
         if (refs && refs.length) {
