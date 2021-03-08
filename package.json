@@ -3,8 +3,7 @@
   "version": "0.8.4",
   "description": "A router DataSource constructor for falcor that allows you to model all your cloud data sources as a single JSON resource.",
   "main": "src/Router.js",
-  "homepage": "https://github.com/Netflix/falcor-router",
-  "author": "Netflix (https://github.com/Netflix/falcor-router/authors.txt)",
+  "homepage": "https://github.com/sayari-analytics/falcor-router.git",
   "license": "Apache-2.0",
   "directories": {
     "test": "test"
@@ -42,7 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Netflix/falcor-router.git"
+    "url": "git+https://github.com/sayari-analytics/falcor-router.git"
   },
   "keywords": [
     "Falcor",
@@ -51,6 +50,7 @@
     "falcorjs"
   ],
   "bugs": {
-    "url": "https://github.com/Netflix/falcor-router/issues"
-  }
+    "url": "https://github.com/sayari-analytics/falcor-router/issues"
+  },
+  "author": ""
 }
