@@ -167,7 +167,7 @@ describe('#set', function() {
     });
 
     it('should be able to send correctly constructed jsonGraph when set passes' +
-       'through referencs.', function(done) {
+       'through references.', function(done) {
         var router = new R([{
             route: 'videos.summary',
             set: function() {
@@ -259,7 +259,7 @@ describe('#set', function() {
                         }
                     },
                     paths: [
-                        [['liger', 'unicorn'], 'summary']
+                        [['unicorn', 'liger'], 'summary']
                     ]
                 });
             })).
