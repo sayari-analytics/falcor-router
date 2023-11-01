@@ -4,8 +4,6 @@ var bump = require('gulp-bump');
 var eslint = require('gulp-eslint');
 var istanbul = require('gulp-istanbul');
 
-gulp.task('lint', ['lint-src', 'lint-test', 'lint-root']);
-
 gulp.task('lint-src', function() {
     return gulp.src('src/**/*.js').
         pipe(eslint()).
@@ -52,4 +50,6 @@ gulp.task('test', function (cb) {
     .on('end', cb);
 });
 
-gulp.task('dist', ['lint', 'test-coverage']);
+gulp.task('lint', gulp.parallel(['lint-src', 'lint-test', 'lint-root']));
+
+gulp.task('dist', gulp.series(['lint', 'test-coverage']));
