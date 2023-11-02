@@ -52,26 +52,7 @@ describe('Collapse and Batch', function() {
 
     it('should validate that paths are ran in parallel, not sequentially.', function(done) {
         this.timeout(10000);
-        var calls;
-        var serviceCalls = 0;
-        var testedTwo = false;
-        function called(res) {
-            if (!calls) {
-                calls = [];
-            }
-            calls[calls.length] = res;
-            serviceCalls++;
-            process.nextTick(function() {
-                if (calls.length === 0) {
-                    return;
-                }
-
-                expect(serviceCalls).to.equal(2);
-                expect(calls.length).to.equal(2);
-                calls.length = 0;
-                testedTwo = true;
-            });
-        }
+        var calls = [];
         var routes = [{
             route: 'one[{integers:ids}]',
             get: function(aliasMap) {
@@ -94,7 +75,7 @@ describe('Collapse and Batch', function() {
         }, {
             route: 'two.be[{integers:ids}].summary',
             get: function(aliasMap) {
-                called(1);
+                calls[calls.length] = 1;
                 return Observable.from(aliasMap.ids).pipe(
                     delay(2000),
                     map(function(id) {
@@ -108,7 +89,7 @@ describe('Collapse and Batch', function() {
         }, {
             route: 'three.four[{integers:ids}].summary',
             get: function(aliasMap) {
-                called(2);
+                calls[calls.length] = 2;
                 return Observable.from(aliasMap.ids).pipe(
                     delay(2000),
                     map(function(id) {
@@ -123,18 +104,15 @@ describe('Collapse and Batch', function() {
         var router = new R(routes);
         var obs = router.
             get([['one', [0, 1], 'summary']]);
-        var count = 0;
         var time = Date.now();
-        obs.
-            pipe(tap(function(res) {
+        obs.pipe(toArray())
+            .subscribe((vals) => {
                 var nextTime = Date.now();
-                expect(nextTime - time >= 4000).to.equal(false);
-                count++;
-            }, noOp, function() {
-                expect(count, 'expect onNext called 1 time.').to.equal(1);
-                expect(testedTwo, 'process.nextTick').to.equal(true);
-            })).
-            subscribe(noOp, done, done);
+                expect(nextTime - time).to.be.lessThan(4000);
+
+                expect(vals, 'expect onNext called 1 time.').to.have.lengthOf(1);
+                expect(calls, 'expect both routes to be called').to.have.lengthOf(2);
+            }, done, done);
     });
 
     it('should validate that optimizedPathSets strips out already found data and collapse makes one request.', function(done) {
