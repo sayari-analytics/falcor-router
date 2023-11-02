@@ -32,22 +32,20 @@ gulp.task('bump', function() {
         pipe(gulp.dest('./'));
 });
 
-gulp.task('test-coverage', function (cb) {
-    gulp.src(['./src/**/*.js']).
+gulp.task('test-coverage', function () {
+    return gulp.src(['./src/**/*.js']).
         pipe(istanbul()).
         pipe(istanbul.hookRequire()).
         on('finish', function () {
             gulp.src(['./test/index.js']).
                 pipe(mocha()).
-                pipe(istanbul.writeReports()).
-                on('end', cb);
+                pipe(istanbul.writeReports());
         });
 });
 
-gulp.task('test', function (cb) {
-  gulp.src(['./test/index.js'])
-    .pipe(mocha())
-    .on('end', cb);
+gulp.task('test', function () {
+  return gulp.src(['./test/index.js'])
+    .pipe(mocha());
 });
 
 gulp.task('lint', gulp.parallel(['lint-src', 'lint-test', 'lint-root']));
